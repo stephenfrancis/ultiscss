@@ -1,2 +1,2 @@
-# uruguay
-CSS Component Builder and Validator
+# ultiscss
+SCSS Component Builder and Validator

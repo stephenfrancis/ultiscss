@@ -12,14 +12,14 @@ export function convertEJSFile(ejs_file: string, html_file: string, project_name
   return new Promise((resolve, reject) => {
     let require_path = "<no require>";
     if (project_name && Fs.existsSync(js_file)) {
-      // in "normal" usage, __dirname here is "/app/node_modules/uruguay/dist"; in "npm link" usage it is e.g. "/home/stephen/Dev/uruguay/dist"
-      // needs to be "../../" if coming from "/node_modules/uruguay/dist"
-      require_path = "../../../" + js_file; // coming from "/node_modules/uruguay/dist"
-      if (__dirname.indexOf("/node_modules/uruguay/dist") === -1) {
+      // in "normal" usage, __dirname here is "/app/node_modules/ultiscss/dist"; in "npm link" usage it is e.g. "/home/stephen/Dev/ultiscss/dist"
+      // needs to be "../../" if coming from "/node_modules/ultiscss/dist"
+      require_path = "../../../" + js_file; // coming from "/node_modules/ultiscss/dist"
+      if (__dirname.indexOf("/node_modules/ultiscss/dist") === -1) {
         if (__dirname.indexOf("/dist") > -1) {
-          require_path = "../../"    + project_name + "/" + js_file; // coming from "<elsewhere>/uruguay/dist"
+          require_path = "../../"    + project_name + "/" + js_file; // coming from "<elsewhere>/ultiscss/dist"
         } else {
-          require_path = "../../../" + project_name + "/" + js_file; // coming from "<elsewhere>/uruguay/src/main" or "<elsewhere>/uruguay/build/main"
+          require_path = "../../../" + project_name + "/" + js_file; // coming from "<elsewhere>/ultiscss/src/main" or "<elsewhere>/ultiscss/build/main"
         }
       }
       try {

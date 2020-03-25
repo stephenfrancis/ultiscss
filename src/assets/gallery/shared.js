@@ -83,7 +83,7 @@ const addStyleToIframes = (style) => {
 let data_promise = null;
 const loadData = () => {
   if (!data_promise) {
-    data_promise = getLoadFilePromise(assets_dir + "uruguay/objects.json")
+    data_promise = getLoadFilePromise(assets_dir + "ultiscss/objects.json")
       .then((data) => {
         const namespaces = {};
         const regex = /([alsw])-([a-z]+)-(.*)/;

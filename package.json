@@ -1,11 +1,11 @@
 {
   "bin": {
-    "uruguay": "./src/config/external.js"
+    "ultiscss": "./src/config/external.js"
   },
   "main": "./dist/index.min.js",
-  "name": "uruguay",
-  "version": "1.0.0",
-  "description": "CSS Component Builder and Validator",
+  "name": "ultiscss",
+  "version": "1.0.1",
+  "description": "SCSS Component Builder and Validator",
   "engines": {
     "node": "^10.17"
   },
@@ -18,9 +18,9 @@
   "author": "stephen.d.francis@gmail.com",
   "repository": {
     "type": "git",
-    "url": "git@github.com:stephenfrancis/uruguay.git"
+    "url": "git@github.com:stephenfrancis/ultiscss.git"
   },
-  "uruguay_settings": {
+  "ultiscss_settings": {
     "source_dir": "src/scss",
     "target_dir": "build"
   },

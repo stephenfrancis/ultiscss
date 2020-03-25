@@ -39,25 +39,17 @@ task("build_distrib", file_list.distrib, file_list.source_ts, async () => {
 	await Ultimake.exec(`mkdir -p build/cache`);
 	await Ultimake.exec(`rm -f -r dist/*`);
 	await Ultimake.exec(`npx parcel build src/main/EntryPoint.ts -d dist --target node --bundle-node-modules --cache-dir build/cache --out-file index.min.js`);
-	// cd /app/node_modules/.bin && ln -f -s ../../src/bin/Program.js uruguay
 });
 
 task("build_separate_js", file_list.target_ts, file_list.source_ts, async () => {
 	await Ultimake.exec("npx tsc", {
 		cwd: Process.cwd() + "/src",
 	});
-	// cd /app/node_modules/.bin && ln -f -s ../../src/bin/Program.js uruguay
 });
 
 task("build_assets", null, file_list.distrib, async () => {
 	await Ultimake.exec(`cp -r src/assets/* build`);
-
-	// const EntryPoint = require("../../dist/index.min");
-	// EntryPoint.addToBuild(EntryPoint.getProject(), rule, task);
-	// task("uruguay")
-	// npx ./src/bin/Program.js build
-	// exec(`jake -f ./src/config/external.js uruguay`);
-	await Ultimake.exec(`./src/config/external.js uruguay`);
+	await Ultimake.exec(`./src/config/external.js ultiscss`);
 });
 
 task("build", null, file_list.target_ts.concat(file_list.distrib).concat([ "build_assets" ]), async () => {});
@@ -68,7 +60,7 @@ task("build", null, file_list.target_ts.concat(file_list.distrib).concat([ "buil
 task("test", null, null, async () => {
 	await Ultimake.exec(`rm -f -r build/project`);
 	await Ultimake.exec(`cp -r src/__tests__/project build`);
-	await Ultimake.exec(`cd build/project && mkdir -p node_modules && cd node_modules && rm -f uruguay && ln -s ../../.. uruguay`);
+	await Ultimake.exec(`cd build/project && mkdir -p node_modules && cd node_modules && rm -f ultiscss && ln -s ../../.. ultiscss`);
 	await Ultimake.exec(`npx jest --config=src/__tests__/jest.config.json`);
 });
 

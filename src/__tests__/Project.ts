@@ -34,7 +34,7 @@ test("multiple components", () => {
 
 test.only("a different package.json file", () => {
   // console.log(`DOING a different package.json file, cwd: ${process.cwd()}`);
-  const output = Cp.execSync("node ../../src/config/external.js uruguay", {
+  const output = Cp.execSync("node ../../src/config/external.js ultiscss", {
     encoding: "utf8",
     cwd: process.cwd() + "/build/project"
   });

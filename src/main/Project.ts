@@ -21,7 +21,7 @@ export default class Project {
   private target_dir: string;
   private source_refs_loaded: boolean;
   private universal_components: string[];
-  private uruguay_version: string;
+  private ultiscss_version: string;
 
 
   constructor() {
@@ -290,12 +290,12 @@ export default class Project {
 
 
   public getVersion(): string {
-    return this.uruguay_version;
+    return this.ultiscss_version;
   }
 
 
-  public isUruguay(): boolean {
-    return (this.project_name === "uruguay");
+  public isUltiscss(): boolean {
+    return (this.project_name === "ultiscss");
   }
 
 
@@ -412,17 +412,17 @@ export default class Project {
     this.target_dir      = "build";
     this.project_name    = containing_package.name;
     this.project_version = containing_package.version;
-    if (containing_package.uruguay_settings) {
-      Object.keys(containing_package.uruguay_settings).forEach((param) => {
-        this[param] = containing_package.uruguay_settings[param]; // TODO should validate?
+    if (containing_package.ultiscss_settings) {
+      Object.keys(containing_package.ultiscss_settings).forEach((param) => {
+        this[param] = containing_package.ultiscss_settings[param]; // TODO should validate?
       });
     }
 
-    if (this.project_name === "uruguay") {
-      this.uruguay_version = this.project_version;
+    if (this.isUltiscss()) {
+      this.ultiscss_version = this.project_version;
     } else {
-      const uruguay_package = Utils.getPackage("./node_modules/uruguay");
-      this.uruguay_version  = uruguay_package.version;
+      const ultiscss_package = Utils.getPackage("./node_modules/ultiscss");
+      this.ultiscss_version  = ultiscss_package.version;
     }
   }
 
@@ -483,10 +483,10 @@ export default class Project {
     }
     Cp.execSync(`mkdir -p ${this.target_dir}/summary`);
     Cp.execSync(`rm -fr ${this.target_dir}/fontawesome ${this.target_dir}/gallery ${this.target_dir}/googlefonts ${this.target_dir}/webfonts`);
-    Cp.execSync(`cp -r node_modules/uruguay/src/assets/fontawesome/ ${this.target_dir}`);
-    Cp.execSync(`cp -r node_modules/uruguay/src/assets/gallery/     ${this.target_dir}`);
-    Cp.execSync(`cp -r node_modules/uruguay/src/assets/googlefonts/ ${this.target_dir}`);
-    Cp.execSync(`cp -r node_modules/uruguay/src/assets/webfonts/    ${this.target_dir}`);
+    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/fontawesome/ ${this.target_dir}`);
+    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/gallery/     ${this.target_dir}`);
+    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/googlefonts/ ${this.target_dir}`);
+    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/webfonts/    ${this.target_dir}`);
   }
 */
 
@@ -518,7 +518,7 @@ export default class Project {
 
 
   public toString(): string {
-    return `uruguay ${this.uruguay_version}: project ${this.project_name}:${this.project_version}`
+    return `ultiscss ${this.ultiscss_version}: project ${this.project_name}:${this.project_version}`
       + ` ${this.source_dir} -> ${this.target_dir} initialised with`
       + ` ${this.object_count["a"]} aggregates,`
       + ` ${this.object_count["l"]} layouts,`

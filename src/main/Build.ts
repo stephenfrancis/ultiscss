@@ -72,7 +72,7 @@ export default function (project: Project,
   file_list.widget_scss = glob(source_prefix + "/**/w-*.scss");
   file_list.templt_ejs  = glob(source_prefix + "/**/s-*.ejs");
   file_list.aggreg_ejs  = glob(source_prefix + "/**/a-*.ejs");
-  file_list.gallery_src = glob((project.isUruguay() ? "" : "node_modules/uruguay/") + "src/assets/gallery/*");
+  file_list.gallery_src = glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
 
   // intermediary and target file lists
   file_list.uicomp_ejs  = file_list.layout_ejs .concat(file_list.widget_ejs );
@@ -96,8 +96,8 @@ export default function (project: Project,
     .concat(file_list.templt_json)
     .concat(file_list.aggreg_json);
 
-  const objects_file = target_prefix + "/uruguay/objects.json";
-  const summary_file = target_prefix + "/uruguay/summary.json";
+  const objects_file = target_prefix + "/ultiscss/objects.json";
+  const summary_file = target_prefix + "/ultiscss/summary.json";
 
   file_list.gallery_tgt = file_list.gallery_src
     .map(path => path.replace(/^.*src\/assets/, target_prefix));
@@ -259,14 +259,14 @@ export default function (project: Project,
 
 
   task("copy_gallery_files", file_list.gallery_tgt, file_list.gallery_src, async () => {
-    await Ultimake.exec(`cp -r ${(project.isUruguay() ? "" : "node_modules/uruguay/")}src/assets/gallery/ ${target_prefix}`);
+    await Ultimake.exec(`cp -r ${(project.isUltiscss() ? "" : "node_modules/ultiscss/")}src/assets/gallery/ ${target_prefix}`);
   });
 
 
   // complete build
 
-  task("uruguay", null, file_list.all, async () => {}, {
-    description: "uruguay complete build",
+  task("ultiscss", null, file_list.all, async () => {}, {
+    description: "ultiscss complete build",
   })
 
 }

@@ -7,7 +7,7 @@
   },
   "scripts": {},
   "author": "stephen@pricesearcher.com",
-  "uruguay_settings": {
+  "ultiscss_settings": {
     "source_dir": "blah_src",
     "target_dir": "blah_tgt",
     "s3_bucket_name": "blah_bucket"
