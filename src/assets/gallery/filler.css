@@ -1,0 +1,25 @@
+body {
+  background: repeating-linear-gradient(
+    45deg,
+    #eee,
+    #eee 10px,
+    #fff 10px,
+    #fff 20px
+  );
+  margin: 0;
+  padding: 0;
+}
+.filler {
+  background: repeating-linear-gradient(
+    45deg,
+    #606dbc,
+    #606dbc 10px,
+    #465298 10px,
+    #465298 20px
+  );
+  box-sizing: border-box;
+  color: white;
+  display: block;
+  height: 100%;
+  padding: 3px;
+}

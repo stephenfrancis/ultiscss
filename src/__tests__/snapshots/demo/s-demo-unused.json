@@ -1,0 +1,8 @@
+{
+  "id": "s-demo-unused",
+  "namespace": "demo",
+  "references": [
+    "w-demo-pattern"
+  ],
+  "type": "s"
+}

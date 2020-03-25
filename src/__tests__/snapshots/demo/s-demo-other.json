@@ -1,0 +1,9 @@
+{
+  "id": "s-demo-other",
+  "namespace": "demo",
+  "references": [
+    "s-base-main",
+    "w-demo-complex"
+  ],
+  "type": "s"
+}

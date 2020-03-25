@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Widget Component Gallery</title>
+    <link rel="stylesheet" href="../fontawesome/all.min.css" />
+    <link rel="stylesheet" href="../googlefonts/NunitoSans.css" />
+    <link rel="stylesheet" href="../gallery/shared.css" />
+    <link rel="stylesheet" href="../base/core.css" />
+    <link rel="shortcut icon" href="../images/icon.png" />
+    <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script type="text/javascript" src="../gallery/shared.js"></script>
+  </head>
+  <body>
+
+    <h1>Widget Component Gallery</h1>
+    <p id="namespaces">
+    </p>
+    <p><a href="../gallery/layout.html">Layout Component Gallery</a></p>
+    <table id="widget_view">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Appearance</th>
+          <th>Notes</th>
+<!--
+          <th>Markup Definition / Example</th>
+          <th>SCSS Styling</th>
+-->
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <script type="text/javascript">
+
+      renderNamespaces("#namespaces");
+
+      window.onhashchange = (event) => {
+        const namespace = window.location.hash && window.location.hash.substr(1) || "base";
+        addWidgets(namespace);
+      }
+      setTimeout(() => { // no idea why we need the timeout here, but we do **sigh**
+        const namespace = window.location.hash && window.location.hash.substr(1) || "base";
+        addWidgets(namespace);
+      }, 50);
+
+    </script>
+
+  </body>
+</html>

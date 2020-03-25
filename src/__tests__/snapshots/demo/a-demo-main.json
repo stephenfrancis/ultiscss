@@ -1,0 +1,14 @@
+{
+  "id": "a-demo-main",
+  "namespace": "demo",
+  "references": [
+    "l-demo-main",
+    "w-demo-h1"
+  ],
+  "type": "a",
+  "title": "Main Page Layout",
+  "info": [
+    "checking class l-demo-main at position - against found signature",
+    "checking class w-demo-h1 at position -0-0- against found signature"
+  ]
+}

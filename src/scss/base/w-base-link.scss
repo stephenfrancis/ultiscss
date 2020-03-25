@@ -1,0 +1,10 @@
+
+.w-base-link {
+  color: green;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
+    environment {
+        GITHUB_TOKEN = credentials('pricesearcheraws-personal-github-token')
+        AWS_DEFAULT_REGION = "eu-west-1"
+        AWS_ACCESS_KEY_ID = credentials('price-api-deploy-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('price-api-deploy-secret-access-key')
+        TF_IN_AUTOMATION = 1
+    }
+
+    stages {
+        stage("Build") {
+            steps {
+                sh "make --file=src/config/Makefile jenkins_build"
+            }
+        }
+
+        stage("Test") {
+            steps {
+                sh "make --file=src/config/Makefile jenkins_test"
+            }
+        }
+
+        stage("Deploy") {
+            steps {
+                sh "make --file=src/config/Makefile jenkins_deploy"
+            }
+        }
+
+    }
+
+    post {
+        always {
+            deleteDir()
+        }
+
+        aborted {
+            slackSend (color: '#DAA038', message: "ABORTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+
+        failure {
+            slackSend (color: '#A30200', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+
+        fixed {
+            slackSend (color: '#2EB886', message: "FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
+}

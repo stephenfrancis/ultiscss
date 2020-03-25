@@ -1,0 +1,10 @@
+{
+  "id": "w-demo-pattern",
+  "namespace": "demo",
+  "references": [
+    "w-demo-pattern"
+  ],
+  "type": "w",
+  "title": "Class Pattern Demo",
+  "signature": "<div.w-demo-pattern><i.fa-* /></div>"
+}

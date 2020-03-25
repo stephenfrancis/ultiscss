@@ -1,0 +1,42 @@
+<div class="l-demo-main" data-title="Main Demo Layout"><!-- Vertical -->
+  <div>
+    <div class="w-demo-pattern"><!-- unrecognised component -->
+      <i class="fa-blah"></i>
+    </div>
+  </div>
+  <div><!-- Horizontal -->
+    <div>
+      <div class="w-demo-h1">
+        <i class="fa-blah"></i><!-- unexpected child -->
+      </div>
+    </div>
+    <div>
+      <div class="w-demo-h1">
+        Some text
+      </div>
+    </div>
+    <div class="h-open">
+      <div class="w-demo-complex">
+        <div>
+          <a>One</a>
+          <a>Two</a>
+          <a class="h-link">Three</a>
+          <a>Four</a>
+          <a>Five</a>
+          <a>Six</a>
+        </div>
+        <div>
+          <a>Um</a>
+          <a class="h-link">Dois</a>
+          <a>Tres</a>
+          <a>Quatro</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-demo-h1"><!-- component not allowed within markup of other component -->
+    Some more text
+  </div>
+</div>
+
+

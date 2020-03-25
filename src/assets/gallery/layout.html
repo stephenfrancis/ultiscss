@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Layout Component Gallery</title>
+    <link rel="stylesheet" href="../fontawesome/all.min.css" />
+    <link rel="stylesheet" href="../googlefonts/NunitoSans.css" />
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../gallery/shared.css" />
+    <link rel="shortcut icon" href="../images/icon.png" />
+    <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript" src="../gallery/shared.js">
+    </script>
+  </head>
+  <body>
+    <h1>Layout Component Gallery</h1>
+    <p><a href="../gallery/widget.html">Widget Component Gallery</a></p>
+    <p>
+      <button class="btn btn-primary" onclick="reload()">Reload</button>
+      <span>Never been able to make this happen reliably automatically after F5... there is a prize!</span>
+    </p>
+    <p>
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-toggle="collapse"
+        data-target="#comp_list_outer"
+        aria-expanded="false"
+      >Layout Component List
+      </button>
+      <div id="comp_list_outer" class="collapse">
+        <h2>Layout Components</h2>
+        <div class="comp_list">
+        </div>
+      </div>
+    </p>
+
+    <h2 id="this_comp"></h2>
+    <div style="display: flex; flex-wrap: wrap;">
+      <!-- key screen-width breakpoint 375px + 2px for the iframe border -->
+      <div class="vis_block">
+        <div style="display: flex; flex-flow: row wrap;">
+          <div class="btn-group">
+            <button class="btn btn-secondary" onclick="prevDevice()">Prev</button>
+            <button class="btn btn-secondary" onclick="toggleCycling()" id="cycle_toggler">Cycle</button>
+            <button class="btn btn-secondary" onclick="nextDevice()">Next</button>
+          </div>
+          <div>&nbsp;</div>
+          <h4>No Device</h4>
+        </div>
+        <iframe src="../gallery/iframe.html" width="200px" height="200px" id="all" title="All">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- hide this
+    <div id="comp_data"></div>
+    -->
+
+    <script type="text/javascript">
+      window.onhashchange = (event) => {
+        getLayoutCompFromHash(window.location.hash);
+      }
+      renderLayoutComponents(".comp_list");
+      function reload() {
+        getLayoutCompFromHash(window.location.hash);
+      }
+    </script>
+
+  </body>
+</html>
