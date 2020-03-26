@@ -259,7 +259,13 @@ export default function (project: Project,
 
 
   task("copy_gallery_files", file_list.gallery_tgt, file_list.gallery_src, async () => {
-    await Ultimake.exec(`cp -r ${(project.isUltiscss() ? "" : "node_modules/ultiscss/")}src/assets/gallery/ ${target_prefix}`);
+    let cmd = "mkdir -p " + target_prefix + "/gallery; cp ";
+    if (!project.isUltiscss()) {
+      cmd += "node_modules/ultiscss/";
+    }
+    cmd += "src/assets/gallery/* " + target_prefix + "/gallery";
+    console.log(`copy_gallery_files: ${cmd}`);
+    await Ultimake.exec(cmd);
   });
 
 

@@ -32,13 +32,17 @@ test("multiple components", () => {
 });
 
 
-test.only("a different package.json file", () => {
+test("a different package.json file", (done) => {
   // console.log(`DOING a different package.json file, cwd: ${process.cwd()}`);
-  const output = Cp.execSync("node ../../src/config/external.js ultiscss", {
+  Cp.exec("node ../../src/config/external.js ultiscss", { //  --loglevel=DEBUG
     encoding: "utf8",
     cwd: process.cwd() + "/build/project"
+  }, (error, stdout, stderr) => {
+    // console.log(stdout);
+    // console.error(stderr);
+    expect(stdout).toEqual(expect.stringMatching(/project example_project:1 blah_src -> blah_tgt initialised/));
+    done();
   });
-  expect(output).toEqual(expect.stringMatching(/project example_project:1 blah_src -> blah_tgt initialised/));
 });
 
 

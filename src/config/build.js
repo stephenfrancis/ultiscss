@@ -60,7 +60,7 @@ task("build", null, file_list.target_ts.concat(file_list.distrib).concat([ "buil
 task("test", null, null, async () => {
 	await Ultimake.exec(`rm -f -r build/project`);
 	await Ultimake.exec(`cp -r src/__tests__/project build`);
-	await Ultimake.exec(`cd build/project && mkdir -p node_modules && cd node_modules && rm -f ultiscss && ln -s ../../.. ultiscss`);
+	await Ultimake.exec(`cd build/project && mkdir -p blah_src && mkdir -p node_modules && cd node_modules && rm -f ultiscss && ln -s ../../.. ultiscss`);
 	await Ultimake.exec(`npx jest --config=src/__tests__/jest.config.json`);
 });
 
