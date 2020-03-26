@@ -4,7 +4,7 @@
   },
   "main": "./dist/index.min.js",
   "name": "ultiscss",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "SCSS Component Builder and Validator",
   "engines": {
     "node": "^10.17"
@@ -13,19 +13,23 @@
     "build": "src/config/build.js build",
     "clean": "src/config/build.js clean",
     "coverage": "nyc npm run test",
-    "test": "src/config/build.js test"
+    "test": "src/config/build.js test",
+    "version_click": "node src/config/build.js version_click"
   },
   "author": "stephen.d.francis@gmail.com",
   "repository": {
     "type": "git",
     "url": "git@github.com:stephenfrancis/ultiscss.git"
   },
+  "license": "ISC",
+  "sideEffects": false,
+  "ultimake_settings": {
+    "exec_on_version_click": "npm publish --access public"
+  },
   "ultiscss_settings": {
     "source_dir": "src/scss",
     "target_dir": "build"
   },
-  "license": "ISC",
-  "sideEffects": false,
   "dependencies": {
     "@types/cheerio": "^0.22.13",
     "@types/ejs": "^2.6.3",
@@ -40,7 +44,7 @@
     "parcel-bundler": "^1.12.4",
     "ts-jest": "^24.0.2",
     "typescript": "3.3.3333",
-    "ultimake": "0.0.6"
+    "ultimake": "0.2.2"
   },
   "devDependencies": {
     "nyc": "^15.0.0"

@@ -72,8 +72,10 @@ task("deploy", null, null, async () => {
 });
 
 
-try {
-	run();
-} catch (e) {
-	console.error(e);
-}
+task("version_click", null, null, async () => {
+	const args = Ultimake.getArgs();
+	Ultimake.versionClick(args._[1], args._[2] || "");
+});
+
+
+run();

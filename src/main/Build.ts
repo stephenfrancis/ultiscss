@@ -264,7 +264,7 @@ export default function (project: Project,
       cmd += "node_modules/ultiscss/";
     }
     cmd += "src/assets/gallery/* " + target_prefix + "/gallery";
-    console.log(`copy_gallery_files: ${cmd}`);
+    // console.log(`copy_gallery_files: ${cmd}`);
     await Ultimake.exec(cmd);
   });
 
