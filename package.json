@@ -4,7 +4,7 @@
   },
   "main": "./dist/index.min.js",
   "name": "ultiscss",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "SCSS Component Builder and Validator",
   "engines": {
     "node": "^10.17"

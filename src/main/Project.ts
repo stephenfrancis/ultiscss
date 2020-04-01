@@ -1,7 +1,4 @@
 
-// import * as Cp from "child_process";
-import { ExecFunction, GlobFunction, TaskFunction } from "ultimake/src/Types";
-import Build from "./Build";
 import RefObject from "./RefObject";
 import Reporter from "./Reporter";
 import Signature from "./Signature";
@@ -35,12 +32,6 @@ export default class Project {
     this.readSettings();
     this.scanLibraryDir();
     this.namespaces.sort();
-  }
-
-
-  public addToBuild(exec: ExecFunction, glob: GlobFunction, task: TaskFunction,
-      aggreg_html_deps?: string[]): void {
-    Build(this, exec, glob, task, aggreg_html_deps);
   }
 
 

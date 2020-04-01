@@ -45,7 +45,6 @@ test("process dirs", () => {
     // console.log(filename);
   });
   expect(files).toEqual([
-    "src/main/Build.ts",
     "src/main/EntryPoint.ts",
     "src/main/Node.ts",
     "src/main/Project.ts",
