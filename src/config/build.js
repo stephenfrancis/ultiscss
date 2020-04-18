@@ -1,26 +1,14 @@
 #!/usr/bin/env node
 
-// const Cp = require("child_process");
 const Process = require("process");
 const Ultimake = require("ultimake");
-const { exec, glob, run, task } = Ultimake.getBuildFunctions({
-  build_vars_source: "src/config/BuildVars.json",
-  build_vars_target: "build/vars.json",
-});
-
-// can't require this now - might not exist
-// const EntryPoint = require("../../dist/index.min");
-// const external = require("../main/Build");
-// const args = Ultimake.getArgs();
-
-// external(EntryPoint.getProject(), exec, glob, rule, task, null);
-
+const { run, task } = Ultimake.getBuildFunctions();
 const file_list = {};
 
 // source file lists
-file_list.source_ts  = glob("src/!(__tests__)/**/*.ts");
+file_list.source_ts  = Ultimake.glob("src/!(__tests__)/**/*.ts");
 file_list.target_ts  = file_list.source_ts
-	.map((source_file) => "build/" + /src\/(.*)\.ts/.exec(source_file)[1] + ".js")
+	.map   ((source_file) => "build/" + /src\/(.*)\.ts/.exec(source_file)[1] + ".js")
 	.filter((target_file) => !/\.d\.js$/.exec(target_file));
 file_list.distrib    = [ "dist/index.min.js" ];
 

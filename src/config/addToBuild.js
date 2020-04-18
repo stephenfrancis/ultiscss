@@ -4,7 +4,7 @@ const Ultimake = require("ultimake");
 const Ultiscss = require("../../dist/index.min");
 
 
-module.exports = function (project, glob, task, aggreg_html_deps) {
+module.exports = function (project, task, aggreg_html_deps) {
 
   console.log(project.toString());
 
@@ -59,13 +59,13 @@ module.exports = function (project, glob, task, aggreg_html_deps) {
   const file_list /* : { [key: string]: string[] } */ = {};
 
   // source file lists
-  file_list.layout_ejs  = glob(source_prefix + "/**/l-*.ejs");
-  file_list.layout_scss = glob(source_prefix + "/**/l-*.scss");
-  file_list.widget_ejs  = glob(source_prefix + "/**/w-*.ejs");
-  file_list.widget_scss = glob(source_prefix + "/**/w-*.scss");
-  file_list.templt_ejs  = glob(source_prefix + "/**/s-*.ejs");
-  file_list.aggreg_ejs  = glob(source_prefix + "/**/a-*.ejs");
-  file_list.gallery_src = glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
+  file_list.layout_ejs  = Ultimake.glob(source_prefix + "/**/l-*.ejs");
+  file_list.layout_scss = Ultimake.glob(source_prefix + "/**/l-*.scss");
+  file_list.widget_ejs  = Ultimake.glob(source_prefix + "/**/w-*.ejs");
+  file_list.widget_scss = Ultimake.glob(source_prefix + "/**/w-*.scss");
+  file_list.templt_ejs  = Ultimake.glob(source_prefix + "/**/s-*.ejs");
+  file_list.aggreg_ejs  = Ultimake.glob(source_prefix + "/**/a-*.ejs");
+  file_list.gallery_src = Ultimake.glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
 
   // intermediary and target file lists
   file_list.uicomp_ejs  = file_list.layout_ejs .concat(file_list.widget_ejs );
