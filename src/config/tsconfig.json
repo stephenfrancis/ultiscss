@@ -7,12 +7,13 @@
       "dom"
     ],
     "module": "commonjs",
-    "outDir": "../build/",
+    "outDir": "../../dist/",
     "resolveJsonModule": true,
+    "rootDir": "../main/",
     "target": "es3"
   },
   "include": [
-    "**/*.ts"
+    "../main/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
 const Ultimake = require("ultimake");
-const EntryPoint = require("../../dist/index.min");
-const addToBuild = require("./addToBuild");
+const EntryPoint = require("../../dist/EntryPoint");
 const { run, task } = Ultimake.getBuildFunctions();
 const project = EntryPoint.getProject();
 
-addToBuild(project, task);
+EntryPoint.addToBuild(project, task);
 
 run();

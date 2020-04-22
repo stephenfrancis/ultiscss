@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
-const Process = require("process");
+// const Process = require("process");
 const Ultimake = require("ultimake");
 const { run, task } = Ultimake.getBuildFunctions();
 const file_list = {};
 
 // source file lists
-file_list.source_ts  = Ultimake.glob("src/!(__tests__)/**/*.ts");
-file_list.target_ts  = file_list.source_ts
-	.map   ((source_file) => "build/" + /src\/(.*)\.ts/.exec(source_file)[1] + ".js")
+file_list.source_ts  = Ultimake.glob("src/main/*.ts");
+file_list.target_js  = file_list.source_ts
+	.map   ((source_file) => "dist/" + /src\/main\/(.*)\.ts/.exec(source_file)[1] + ".js")
 	.filter((target_file) => !/\.d\.js$/.exec(target_file));
-file_list.distrib    = [ "dist/index.min.js" ];
+file_list.source_ts.push("src/config/tsconfig.json");
 
-// console.log(file_list.target_ts);
+// console.log(file_list.target_js);
+
 
 // Make Target Group 1: clean
 
@@ -23,24 +24,18 @@ task("clean", null, null, async () => {
 
 // Make Target Group 2: build
 
-task("build_distrib", file_list.distrib, file_list.source_ts, async () => {
-	await Ultimake.exec(`mkdir -p build/cache`);
-	await Ultimake.exec(`rm -f -r dist/*`);
-	await Ultimake.exec(`npx parcel build src/main/EntryPoint.ts -d dist --target node --bundle-node-modules --cache-dir build/cache --out-file index.min.js`);
+task("build_js", file_list.target_js, file_list.source_ts, async () => {
+	await Ultimake.exec("npx tsc --project src/config/tsconfig.json");
 });
 
-task("build_separate_js", file_list.target_ts, file_list.source_ts, async () => {
-	await Ultimake.exec("npx tsc", {
-		cwd: Process.cwd() + "/src",
-	});
-});
-
-task("build_assets", null, file_list.distrib, async () => {
+task("build_assets", null, file_list.target_js, async () => {
 	await Ultimake.exec(`cp -r src/assets/* build`);
 	await Ultimake.exec(`./src/config/external.js ultiscss`);
 });
 
-task("build", null, file_list.target_ts.concat(file_list.distrib).concat([ "build_assets" ]), async () => {});
+task("build", null, file_list.target_js
+	.concat([ "build_assets" ])
+	, async () => {});
 
 
 // Make Target Group 3: test

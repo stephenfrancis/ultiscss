@@ -30,7 +30,7 @@ DOCKER_RUN_ARGS = \
 jenkins_clean:
 	@echo "⚒ jenkins_clean"
 	docker start $(DOCKER_CONTAINER)
-	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/build.js clean"
+	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/make.js clean"
 	docker stop  $(DOCKER_CONTAINER)
 
 
@@ -51,21 +51,21 @@ run_docker:
 jenkins_build: build_docker
 	@echo "⚒ jenkins_build"
 	docker start $(DOCKER_CONTAINER)
-	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/build.js build"
+	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/make.js build"
 	docker stop  $(DOCKER_CONTAINER)
 
 
 jenkins_test:
 	@echo "⚒ jenkins_test"
 	docker start $(DOCKER_CONTAINER)
-	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/build.js test"
+	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/make.js test"
 	docker stop  $(DOCKER_CONTAINER)
 
 
 jenkins_deploy:
 	@echo "⚒ jenkins_deploy"
 	docker start $(DOCKER_CONTAINER)
-	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/build.js deploy"
+	docker exec  $(DOCKER_CONTAINER) /bin/bash -c "src/config/make.js deploy"
 	docker stop  $(DOCKER_CONTAINER)
 	docker rm    $(DOCKER_CONTAINER)
 

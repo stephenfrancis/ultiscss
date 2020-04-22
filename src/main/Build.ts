@@ -1,10 +1,10 @@
 
 const Fs = require("fs");
 const Ultimake = require("ultimake");
-const Ultiscss = require("../../dist/index.min");
+import * as Utils from "./Utils";
 
 
-module.exports = function (project, task, aggreg_html_deps) {
+export default function(project, task, aggreg_html_deps): void {
 
   console.log(project.toString());
 
@@ -14,7 +14,7 @@ module.exports = function (project, task, aggreg_html_deps) {
 
   // helper functions
 
-  const makeHTML = function (target /* : string */) /* : Promise<void> */ {
+  const makeHTML = function (target: string): Promise<void> {
     // console.log(`makeHTML() ${this.name}, ${this.prereqs}, ${this.prereq}, ${this.source}`);
     // ongoing issue: how to access prereqs inside these recipe functions?
     const  ejs_file = convertTargetHtmlToSourceEjs(target);
@@ -29,10 +29,10 @@ module.exports = function (project, task, aggreg_html_deps) {
     // }
   };
 
-  const makeJSON = async function (targets /* : string */, prereqs /* : string */, name /* : string */) /* : Promise<void> */ {
+  const makeJSON = async function (targets: string, prereqs: string, name: string): Promise<void> {
     // console.log(`makeJSON() ${name}, ${targets}, ${prereqs}`);
     const json_file = targets;
-    const parts = Ultiscss.getPartsFromFilepath(targets);
+    const parts = Utils.getPartsFromFilepath(targets);
     // console.log(`makeJSON() ${parts.object_id} -> ${json_file}`);
     Ultimake.createDir(json_file);
     const data = project.getObjectData(parts.object_id);
@@ -56,7 +56,7 @@ module.exports = function (project, task, aggreg_html_deps) {
   const convertSourceEjsToTargetCss  = Ultimake.convertSourceToTarget(source_prefix, target_prefix, ".ejs" , ".css");
   const convertSourceScssToTargetCss = Ultimake.convertSourceToTarget(source_prefix, target_prefix, ".scss", ".css");
 
-  const file_list /* : { [key: string]: string[] } */ = {};
+  const file_list: { [key: string]: string[] } = {};
 
   // source file lists
   file_list.layout_ejs  = Ultimake.glob(source_prefix + "/**/l-*.ejs");
@@ -163,7 +163,7 @@ module.exports = function (project, task, aggreg_html_deps) {
   task("build_templt_scss", file_list.templt_scss, file_list.all____json, async () => {
     // console.log(`making template SCSS...`);
     file_list.templt_scss.forEach((path) => {
-      const parts = Ultiscss.getPartsFromFilepath(path);
+      const parts = Utils.getPartsFromFilepath(path);
       // console.log(`creating templt SCSS for ${parts.object_id}`);
       project.generateSCSSFileForObject(parts.object_id);
     });
@@ -200,7 +200,7 @@ module.exports = function (project, task, aggreg_html_deps) {
 
   task("build_aggreg_scss", file_list.aggreg_scss, file_list.all____json, async () => {
     file_list.aggreg_scss.forEach((path) => {
-      const parts = Ultiscss.getPartsFromFilepath(path);
+      const parts = Utils.getPartsFromFilepath(path);
       project.generateSCSSFileForObject(parts.object_id);
     });
   }, {

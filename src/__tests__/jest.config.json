@@ -1,4 +1,9 @@
 {
+  "globals": {
+    "ts-jest": {
+      "tsConfig": "src/config/tsconfig.json"
+    }
+  },
   "moduleFileExtensions": [
     "ts",
     "tsx",

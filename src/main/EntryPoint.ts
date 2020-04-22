@@ -9,6 +9,9 @@ import * as Utils from "./Utils";
 const project = new Project();
 
 
+export { default as addToBuild } from "./Build";
+
+
 export { getCheerio, getPartsFromFilepath, getPartsFromObjectId, processDir } from "./Utils";
 
 

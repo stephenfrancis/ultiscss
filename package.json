@@ -2,7 +2,7 @@
   "bin": {
     "ultiscss": "./src/config/external.js"
   },
-  "main": "./dist/index.min.js",
+  "main": "./dist/EntryPoint.js",
   "name": "ultiscss",
   "version": "1.1.3",
   "description": "SCSS Component Builder and Validator",
@@ -10,11 +10,11 @@
     "node": "^10.17"
   },
   "scripts": {
-    "build": "src/config/build.js build",
-    "clean": "src/config/build.js clean",
+    "build": "src/config/make.js build",
+    "clean": "src/config/make.js clean",
     "coverage": "nyc npm run test",
-    "test": "src/config/build.js test",
-    "version_click": "node src/config/build.js version_click"
+    "test": "src/config/make.js test",
+    "version_click": "node src/config/make.js version_click"
   },
   "author": "stephen.d.francis@gmail.com",
   "repository": {
@@ -41,10 +41,9 @@
     "jest": "^24.1.0",
     "jquery": "^3.4.1",
     "node-sass": "^4.13.1",
-    "parcel-bundler": "^1.12.4",
     "ts-jest": "^24.0.2",
     "typescript": "3.3.3333",
-    "ultimake": "0.3.0"
+    "ultimake": "0.3.1"
   },
   "devDependencies": {
     "nyc": "^15.0.0"
