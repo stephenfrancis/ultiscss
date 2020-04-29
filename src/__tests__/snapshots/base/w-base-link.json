@@ -6,5 +6,9 @@
   ],
   "type": "w",
   "title": "Basic Link",
-  "signature": "<div.w-base-link />"
+  "signature": "<div.w-base-link />",
+  "hide_in_gallery": false,
+  "leniency_level": [
+    "class-naming"
+  ]
 }

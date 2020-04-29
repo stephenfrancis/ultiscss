@@ -67,6 +67,9 @@ var Signature = /** @class */ (function () {
     Signature.prototype.getId = function () {
         return this.component_id;
     };
+    Signature.prototype.getLeniencyLevel = function () {
+        return this.leniency_level;
+    };
     Signature.prototype.getNamespace = function () {
         return this.namespace;
     };

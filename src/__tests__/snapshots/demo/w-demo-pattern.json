@@ -6,5 +6,9 @@
   ],
   "type": "w",
   "title": "Class Pattern Demo",
-  "signature": "<div.w-demo-pattern><i.fa-* /></div>"
+  "signature": "<div.w-demo-pattern><i.fa-* /></div>",
+  "hide_in_gallery": false,
+  "leniency_level": [
+    "class-naming"
+  ]
 }

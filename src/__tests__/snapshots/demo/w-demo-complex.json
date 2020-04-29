@@ -5,5 +5,9 @@
     "w-demo-complex"
   ],
   "type": "w",
-  "signature": "<div.w-demo-complex><div[2-2]><a[0-*].h-link? /></div></div>"
+  "signature": "<div.w-demo-complex><div[2-2]><a[0-*].h-link? /></div></div>",
+  "hide_in_gallery": false,
+  "leniency_level": [
+    "class-naming"
+  ]
 }

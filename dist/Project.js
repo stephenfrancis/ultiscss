@@ -22,7 +22,7 @@ var Project = /** @class */ (function () {
         this.object_cache = {};
         this.sig_map = {};
         this.source_refs_loaded = false;
-        this.universal_components = null;
+        // this.universal_components = null;
         this.readSettings();
         this.scanLibraryDir();
         this.namespaces.sort();
@@ -119,7 +119,7 @@ var Project = /** @class */ (function () {
     };
     Project.prototype.generateSCSSFileForObject = function (object_id) {
         this.loadSourceReferences();
-        var collector = this.getCollector();
+        var collector = [];
         var parts = Utils.getPartsFromObjectId(object_id);
         var scss_file = this.target_dir + "/" + parts.namespace + "/" + object_id + ".scss";
         this.collectTemplateUIComponents(object_id, collector);
@@ -136,33 +136,36 @@ var Project = /** @class */ (function () {
                 .join("\n") + "\n";
         Utils.writeFile(target_file, content);
     };
-    Project.prototype.getCollector = function () {
-        var _this = this;
+    /*
+      private getCollector(): string[] {
         if (!this.universal_components) {
-            this.universal_components = [];
-            if (this.entry_point_template) {
-                this.collection[this.entry_point_template]
-                    .forEachReference(function (comp_id) {
-                    if (comp_id.startsWith("l") || comp_id.startsWith("w")) {
-                        _this.universal_components.push(comp_id);
-                    }
-                });
-            }
+          this.universal_components = [];
+          if (this.entry_point_templates) {
+            this.collection[this.entry_point_templates]
+              .forEachReference((comp_id: string) => {
+                if (comp_id.startsWith("l") || comp_id.startsWith("w")) {
+                  this.universal_components.push(comp_id);
+                }
+              });
+          }
         }
         // console.log(`Generating SCSS for Template: ${template_id}`);
         return this.universal_components.slice(); // shallow copy
-    };
-    Project.prototype.getEntryPointTemplates = function () {
+      }
+    */
+    /*
+      public getEntryPointTemplates(): string[] {
         this.loadSourceReferences();
-        var out = [];
-        if (this.entry_point_template) {
-            this.collection[this.entry_point_template]
-                .forEachReference(function (comp_id) {
-                out.push(comp_id);
+        const out = [];
+        if (this.entry_point_templates) {
+          this.collection[this.entry_point_templates]
+            .forEachReference((comp_id: string) => {
+              out.push(comp_id);
             }, "s-");
         }
         return out;
-    };
+      }
+    */
     Project.prototype.getObjectData = function (object_id) {
         if (!this.object_cache[object_id]) {
             this.object_cache[object_id] = this.getObjectDataInternal(object_id);
@@ -184,6 +187,8 @@ var Project = /** @class */ (function () {
             var signature = this.getSignature(object_id);
             out.title = signature.getTitle();
             out.signature = signature.getRootNode().toString();
+            out.hide_in_gallery = signature.isHideInGallery();
+            out.leniency_level = signature.getLeniencyLevel();
             signature.validate(reporter);
             var filename = this.target_dir + "/" + parts.namespace + "/" + object_id + ".css";
             var css_data = Utils.loadFile(filename);
@@ -368,7 +373,7 @@ var Project = /** @class */ (function () {
         this.loadSourceReferences();
         var out = [];
         Object.keys(this.collection).forEach(function (key) {
-            if (key.charAt(0) === "a") { // ignore aggregates
+            if ((key.charAt(0) === "a") || (key === _this.entry_point_template)) { // ignore aggregates
                 return;
             }
             var ref_found = false;

@@ -7,6 +7,10 @@
   "type": "w",
   "title": "Class Pattern Demo",
   "signature": "<div.w-demo-pattern><i.fa-*? /></div>",
+  "hide_in_gallery": false,
+  "leniency_level": [
+    "class-naming"
+  ],
   "error": [
     "top level element must have w-demo-pattern-2 as a required class",
     "w-demo-pattern-2/0: class name cannot appear to be another component id: w-demo-pattern"

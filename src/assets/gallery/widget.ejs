@@ -1,23 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>Widget Component Gallery</title>
-    <link rel="stylesheet" href="../fontawesome/all.min.css" />
-    <link rel="stylesheet" href="../googlefonts/NunitoSans.css" />
-    <link rel="stylesheet" href="../gallery/shared.css" />
-    <link rel="stylesheet" href="../base/core.css" />
+    <link rel="stylesheet" href="./shared.css" />
     <link rel="shortcut icon" href="../images/icon.png" />
-    <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js">
-    </script>
-    <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js">
-    </script>
-    <script type="text/javascript" src="../gallery/shared.js"></script>
+    <script type="text/javascript" src="./jquery.min.js"></script>
+    <script type="text/javascript" src="./bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="./shared.js"></script>
+    <% if (gallery_head_include_file) { %>
+      <%- include(gallery_head_include_file) %>
+    <% } %>
   </head>
   <body>
-
     <h1>Widget Component Gallery</h1>
-    <p id="namespaces">
-    </p>
-    <p><a href="../gallery/layout.html">Layout Component Gallery</a></p>
+    <p id="namespaces"></p>
+    <p><a href="./layout.html">Layout Component Gallery</a></p>
     <table id="widget_view">
       <thead>
         <tr>

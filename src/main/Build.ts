@@ -1,6 +1,8 @@
+/// <reference path = "../../node_modules/ultimake/src/Types.d.ts" />
 
-const Fs = require("fs");
-const Ultimake = require("ultimake");
+import Ejs from "ejs";
+import Fs from "fs";
+import * as Ultimake from "ultimake";
 import * as Utils from "./Utils";
 
 
@@ -65,7 +67,6 @@ export default function(project, task, aggreg_html_deps): void {
   file_list.widget_scss = Ultimake.glob(source_prefix + "/**/w-*.scss");
   file_list.templt_ejs  = Ultimake.glob(source_prefix + "/**/s-*.ejs");
   file_list.aggreg_ejs  = Ultimake.glob(source_prefix + "/**/a-*.ejs");
-  file_list.gallery_src = Ultimake.glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
 
   // intermediary and target file lists
   file_list.uicomp_ejs  = file_list.layout_ejs .concat(file_list.widget_ejs );
@@ -92,8 +93,10 @@ export default function(project, task, aggreg_html_deps): void {
   const objects_file = target_prefix + "/ultiscss/objects.json";
   const summary_file = target_prefix + "/ultiscss/summary.json";
 
+  file_list.gallery_src = Ultimake.glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
+
   file_list.gallery_tgt = file_list.gallery_src
-    .map(path => path.replace(/^.*src\/assets/, target_prefix));
+    .map(path => path.replace(/^.*src\/assets/, target_prefix).replace(/.ejs$/, ".html"));
 
 
   file_list.all         = file_list.all____json
@@ -253,13 +256,34 @@ export default function(project, task, aggreg_html_deps): void {
 
 
   task("copy_gallery_files", file_list.gallery_tgt, file_list.gallery_src, async () => {
-    let cmd = "mkdir -p " + target_prefix + "/gallery; cp ";
-    if (!project.isUltiscss()) {
-      cmd += "node_modules/ultiscss/";
+    const source_dir = (project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery";
+    const target_dir = target_prefix + "/gallery/";
+    Ultimake.createDir(target_dir);
+
+    await Ultimake.exec(`cp ${source_dir}/*.css ${target_dir}`);
+    await Ultimake.exec(`cp ${source_dir}/*.js  ${target_dir}`);
+    await Ultimake.exec(`find node_modules/ -name           jquery.min.js -exec cp '{}' ${target_dir} \\;`);
+    await Ultimake.exec(`find node_modules/ -name bootstrap.bundle.min.js -exec cp '{}' ${target_dir} \\;`);
+    await Ultimake.exec(`find node_modules/ -name       bootstrap.min.css -exec cp '{}' ${target_dir} \\;`);
+
+    const data = {
+      gallery_head_include_file: null,
+    };
+    const convert = (ejs_file, html_file) => {
+      return new Promise((resolve, reject) => {
+        Ejs.renderFile(ejs_file, data, null, (err, html) => {
+          if (err) {
+            reject(err);
+          } else {
+            Fs.writeFileSync(html_file, html);
+            resolve();
+          }
+        });
+      });
     }
-    cmd += "src/assets/gallery/* " + target_prefix + "/gallery";
-    // console.log(`copy_gallery_files: ${cmd}`);
-    await Ultimake.exec(cmd);
+    await convert(source_dir + "/iframe.ejs", target_dir + "/iframe.html");
+    await convert(source_dir + "/layout.ejs", target_dir + "/layout.html");
+    await convert(source_dir + "/widget.ejs", target_dir + "/widget.html");
   });
 
 

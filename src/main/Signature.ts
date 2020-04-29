@@ -79,6 +79,11 @@ export default class Signature {
   }
 
 
+  public getLeniencyLevel(): string[] {
+    return this.leniency_level;
+  }
+
+
   public getNamespace(): string {
     return this.namespace;
   }

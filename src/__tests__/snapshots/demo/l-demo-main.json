@@ -6,5 +6,9 @@
   ],
   "type": "l",
   "title": "Main Demo Layout",
-  "signature": "<div.l-demo-main><div /><div><div /><div /><div.h-open? /></div><div /></div>"
+  "signature": "<div.l-demo-main><div /><div><div /><div /><div.h-open? /></div><div /></div>",
+  "hide_in_gallery": false,
+  "leniency_level": [
+    "class-naming"
+  ]
 }

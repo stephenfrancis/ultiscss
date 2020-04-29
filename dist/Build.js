@@ -1,9 +1,11 @@
 "use strict";
+/// <reference path = "../../node_modules/ultimake/src/Types.d.ts" />
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -34,6 +36,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -42,8 +54,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 exports.__esModule = true;
-var Fs = require("fs");
-var Ultimake = require("ultimake");
+var ejs_1 = __importDefault(require("ejs"));
+var fs_1 = __importDefault(require("fs"));
+var Ultimake = __importStar(require("ultimake"));
 var Utils = __importStar(require("./Utils"));
 function default_1(project, task, aggreg_html_deps) {
     var _this = this;
@@ -74,7 +87,7 @@ function default_1(project, task, aggreg_html_deps) {
                 // console.log(`makeJSON() ${parts.object_id} -> ${json_file}`);
                 Ultimake.createDir(json_file);
                 data = project.getObjectData(parts.object_id);
-                Fs.writeFileSync(json_file, JSON.stringify(data, null, "  "), {
+                fs_1["default"].writeFileSync(json_file, JSON.stringify(data, null, "  "), {
                     encoding: "UTF-8"
                 });
                 return [2 /*return*/];
@@ -101,7 +114,6 @@ function default_1(project, task, aggreg_html_deps) {
     file_list.widget_scss = Ultimake.glob(source_prefix + "/**/w-*.scss");
     file_list.templt_ejs = Ultimake.glob(source_prefix + "/**/s-*.ejs");
     file_list.aggreg_ejs = Ultimake.glob(source_prefix + "/**/a-*.ejs");
-    file_list.gallery_src = Ultimake.glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
     // intermediary and target file lists
     file_list.uicomp_ejs = file_list.layout_ejs.concat(file_list.widget_ejs);
     file_list.uicomp_json = file_list.uicomp_ejs.map(convertSourceEjsToTargetJson);
@@ -121,8 +133,9 @@ function default_1(project, task, aggreg_html_deps) {
         .concat(file_list.aggreg_json);
     var objects_file = target_prefix + "/ultiscss/objects.json";
     var summary_file = target_prefix + "/ultiscss/summary.json";
+    file_list.gallery_src = Ultimake.glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
     file_list.gallery_tgt = file_list.gallery_src
-        .map(function (path) { return path.replace(/^.*src\/assets/, target_prefix); });
+        .map(function (path) { return path.replace(/^.*src\/assets/, target_prefix).replace(/.ejs$/, ".html"); });
     file_list.all = file_list.all____json
         .concat(file_list.uicomp_html)
         .concat(file_list.aggreg_html)
@@ -233,7 +246,7 @@ function default_1(project, task, aggreg_html_deps) {
         description: "build aggreg json"
     });
     // target css - s- and a- generated SCSS -> CSS
-    task("compile_target_scss_to_css", file_list.templt_css.concat(file_list.aggreg_css), [file_list.templt_scss, file_list.aggreg_scss, file_list.layout_scss, file_list.widget_scss], function () { return __awaiter(_this, void 0, void 0, function () {
+    task("compile_target_scss_to_css", __spreadArrays(file_list.templt_css, file_list.aggreg_css), [file_list.templt_scss, file_list.aggreg_scss, file_list.layout_scss, file_list.widget_scss], function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, Ultimake.exec("npx node-sass -q -r " + target_prefix + " --output " + target_prefix)];
@@ -263,7 +276,7 @@ function default_1(project, task, aggreg_html_deps) {
         return __generator(this, function (_a) {
             Ultimake.createDir(objects_file);
             data = project.getObjects();
-            Fs.writeFileSync(objects_file, JSON.stringify(data, null, "  "), {
+            fs_1["default"].writeFileSync(objects_file, JSON.stringify(data, null, "  "), {
                 encoding: "UTF-8"
             });
             return [2 /*return*/];
@@ -274,26 +287,59 @@ function default_1(project, task, aggreg_html_deps) {
         return __generator(this, function (_a) {
             Ultimake.createDir(summary_file);
             data = project.makeSummary();
-            Fs.writeFileSync(summary_file, JSON.stringify(data, null, "  "), {
+            fs_1["default"].writeFileSync(summary_file, JSON.stringify(data, null, "  "), {
                 encoding: "UTF-8"
             });
             return [2 /*return*/];
         });
     }); });
     task("copy_gallery_files", file_list.gallery_tgt, file_list.gallery_src, function () { return __awaiter(_this, void 0, void 0, function () {
-        var cmd;
+        var source_dir, target_dir, data, convert;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    cmd = "mkdir -p " + target_prefix + "/gallery; cp ";
-                    if (!project.isUltiscss()) {
-                        cmd += "node_modules/ultiscss/";
-                    }
-                    cmd += "src/assets/gallery/* " + target_prefix + "/gallery";
-                    // console.log(`copy_gallery_files: ${cmd}`);
-                    return [4 /*yield*/, Ultimake.exec(cmd)];
+                    source_dir = (project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery";
+                    target_dir = target_prefix + "/gallery/";
+                    Ultimake.createDir(target_dir);
+                    return [4 /*yield*/, Ultimake.exec("cp " + source_dir + "/*.css " + target_dir)];
                 case 1:
-                    // console.log(`copy_gallery_files: ${cmd}`);
+                    _a.sent();
+                    return [4 /*yield*/, Ultimake.exec("cp " + source_dir + "/*.js  " + target_dir)];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name           jquery.min.js -exec cp '{}' " + target_dir + " \\;")];
+                case 3:
+                    _a.sent();
+                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name bootstrap.bundle.min.js -exec cp '{}' " + target_dir + " \\;")];
+                case 4:
+                    _a.sent();
+                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name       bootstrap.min.css -exec cp '{}' " + target_dir + " \\;")];
+                case 5:
+                    _a.sent();
+                    data = {
+                        gallery_head_include_file: null
+                    };
+                    convert = function (ejs_file, html_file) {
+                        return new Promise(function (resolve, reject) {
+                            ejs_1["default"].renderFile(ejs_file, data, null, function (err, html) {
+                                if (err) {
+                                    reject(err);
+                                }
+                                else {
+                                    fs_1["default"].writeFileSync(html_file, html);
+                                    resolve();
+                                }
+                            });
+                        });
+                    };
+                    return [4 /*yield*/, convert(source_dir + "/iframe.ejs", target_dir + "/iframe.html")];
+                case 6:
+                    _a.sent();
+                    return [4 /*yield*/, convert(source_dir + "/layout.ejs", target_dir + "/layout.html")];
+                case 7:
+                    _a.sent();
+                    return [4 /*yield*/, convert(source_dir + "/widget.ejs", target_dir + "/widget.html")];
+                case 8:
                     _a.sent();
                     return [2 /*return*/];
             }

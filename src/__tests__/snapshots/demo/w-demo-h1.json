@@ -6,5 +6,9 @@
   ],
   "type": "w",
   "title": "Main Page Title",
-  "signature": "<div.w-demo-h1 />"
+  "signature": "<div.w-demo-h1 />",
+  "hide_in_gallery": false,
+  "leniency_level": [
+    "class-naming"
+  ]
 }

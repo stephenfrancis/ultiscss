@@ -17,7 +17,7 @@ export default class Project {
   private source_dir: string;
   private target_dir: string;
   private source_refs_loaded: boolean;
-  private universal_components: string[];
+  // private universal_components: string[];
   private ultiscss_version: string;
 
 
@@ -28,7 +28,7 @@ export default class Project {
     this.object_cache = {};
     this.sig_map = {};
     this.source_refs_loaded = false;
-    this.universal_components = null;
+    // this.universal_components = null;
     this.readSettings();
     this.scanLibraryDir();
     this.namespaces.sort();
@@ -135,7 +135,7 @@ export default class Project {
 
   public generateSCSSFileForObject(object_id: string): void {
     this.loadSourceReferences();
-    const collector: string[] = this.getCollector();
+    const collector: string[] = [];
     const parts = Utils.getPartsFromObjectId(object_id);
     const scss_file = `${this.target_dir}/${parts.namespace}/${object_id}.scss`;
     this.collectTemplateUIComponents(object_id, collector);
@@ -154,12 +154,12 @@ export default class Project {
     Utils.writeFile(target_file, content);
   }
 
-
+/*
   private getCollector(): string[] {
     if (!this.universal_components) {
       this.universal_components = [];
-      if (this.entry_point_template) {
-        this.collection[this.entry_point_template]
+      if (this.entry_point_templates) {
+        this.collection[this.entry_point_templates]
           .forEachReference((comp_id: string) => {
             if (comp_id.startsWith("l") || comp_id.startsWith("w")) {
               this.universal_components.push(comp_id);
@@ -170,20 +170,20 @@ export default class Project {
     // console.log(`Generating SCSS for Template: ${template_id}`);
     return this.universal_components.slice(); // shallow copy
   }
-
-
-  public getEntryPointTemplates(): string [] {
+*/
+/*
+  public getEntryPointTemplates(): string[] {
     this.loadSourceReferences();
     const out = [];
-    if (this.entry_point_template) {
-      this.collection[this.entry_point_template]
+    if (this.entry_point_templates) {
+      this.collection[this.entry_point_templates]
         .forEachReference((comp_id: string) => {
           out.push(comp_id);
         }, "s-");
     }
     return out;
   }
-
+*/
 
   public getObjectData(object_id: string): any {
     if (!this.object_cache[object_id]) {
@@ -209,6 +209,8 @@ export default class Project {
       const signature = this.getSignature(object_id);
       out.title = signature.getTitle();
       out.signature = signature.getRootNode().toString();
+      out.hide_in_gallery = signature.isHideInGallery();
+      out.leniency_level  = signature.getLeniencyLevel();
 
       signature.validate(reporter);
       const filename = `${this.target_dir}/${parts.namespace}/${object_id}.css`;
@@ -422,7 +424,7 @@ export default class Project {
     this.loadSourceReferences();
     const out = [];
     Object.keys(this.collection).forEach((key: string) => {
-      if (key.charAt(0) === "a") { // ignore aggregates
+      if ((key.charAt(0) === "a") || (key === this.entry_point_template)) { // ignore aggregates
         return;
       }
       let ref_found: boolean = false;
