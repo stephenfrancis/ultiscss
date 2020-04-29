@@ -263,11 +263,12 @@ export default function(project, task, aggreg_html_deps): void {
     await Ultimake.exec(`cp ${source_dir}/*.css ${target_dir}`);
     await Ultimake.exec(`cp ${source_dir}/*.js  ${target_dir}`);
     await Ultimake.exec(`find node_modules/ -name           jquery.min.js -exec cp '{}' ${target_dir} \\;`);
+    await Ultimake.exec(`find node_modules/ -name        bootstrap.min.js -exec cp '{}' ${target_dir} \\;`);
     await Ultimake.exec(`find node_modules/ -name bootstrap.bundle.min.js -exec cp '{}' ${target_dir} \\;`);
     await Ultimake.exec(`find node_modules/ -name       bootstrap.min.css -exec cp '{}' ${target_dir} \\;`);
 
     const data = {
-      gallery_head_include_file: null,
+      gallery_head_include_file: project.getGalleryHeadIncludeFile(),
     };
     const convert = (ejs_file, html_file) => {
       return new Promise((resolve, reject) => {

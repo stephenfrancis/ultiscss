@@ -18,6 +18,7 @@ var Project = /** @class */ (function () {
     function Project() {
         this.collection = {};
         this.entry_point_template = null;
+        this.gallery_head_include_file = null;
         this.namespaces = [];
         this.object_cache = {};
         this.sig_map = {};
@@ -166,6 +167,9 @@ var Project = /** @class */ (function () {
         return out;
       }
     */
+    Project.prototype.getGalleryHeadIncludeFile = function () {
+        return this.gallery_head_include_file;
+    };
     Project.prototype.getObjectData = function (object_id) {
         if (!this.object_cache[object_id]) {
             this.object_cache[object_id] = this.getObjectDataInternal(object_id);
@@ -419,19 +423,6 @@ var Project = /** @class */ (function () {
             console.error(e);
         }
     };
-    /*
-      public setup(): void {
-        if (!this.include_gallery) {
-          return;
-        }
-        Cp.execSync(`mkdir -p ${this.target_dir}/summary`);
-        Cp.execSync(`rm -fr ${this.target_dir}/fontawesome ${this.target_dir}/gallery ${this.target_dir}/googlefonts ${this.target_dir}/webfonts`);
-        Cp.execSync(`cp -r node_modules/ultiscss/src/assets/fontawesome/ ${this.target_dir}`);
-        Cp.execSync(`cp -r node_modules/ultiscss/src/assets/gallery/     ${this.target_dir}`);
-        Cp.execSync(`cp -r node_modules/ultiscss/src/assets/googlefonts/ ${this.target_dir}`);
-        Cp.execSync(`cp -r node_modules/ultiscss/src/assets/webfonts/    ${this.target_dir}`);
-      }
-    */
     Project.prototype.testMarkup = function (markup, reporter) {
         var _this = this;
         if (typeof markup === "string") {

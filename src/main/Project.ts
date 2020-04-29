@@ -8,6 +8,7 @@ import * as Utils from "./Utils";
 export default class Project {
   private collection: { [key: string]: RefObject };
   private entry_point_template?: string;
+  private gallery_head_include_file?: string;
   private namespaces: string[];
   private object_cache: { [object_id: string]: any };
   private object_count: { [key: string]: number };
@@ -24,6 +25,7 @@ export default class Project {
   constructor() {
     this.collection = {};
     this.entry_point_template = null;
+    this.gallery_head_include_file = null;
     this.namespaces = [];
     this.object_cache = {};
     this.sig_map = {};
@@ -184,6 +186,11 @@ export default class Project {
     return out;
   }
 */
+
+  public getGalleryHeadIncludeFile(): string {
+    return this.gallery_head_include_file;
+  }
+
 
   public getObjectData(object_id: string): any {
     if (!this.object_cache[object_id]) {
@@ -469,19 +476,6 @@ export default class Project {
     }
   }
 
-/*
-  public setup(): void {
-    if (!this.include_gallery) {
-      return;
-    }
-    Cp.execSync(`mkdir -p ${this.target_dir}/summary`);
-    Cp.execSync(`rm -fr ${this.target_dir}/fontawesome ${this.target_dir}/gallery ${this.target_dir}/googlefonts ${this.target_dir}/webfonts`);
-    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/fontawesome/ ${this.target_dir}`);
-    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/gallery/     ${this.target_dir}`);
-    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/googlefonts/ ${this.target_dir}`);
-    Cp.execSync(`cp -r node_modules/ultiscss/src/assets/webfonts/    ${this.target_dir}`);
-  }
-*/
 
   public testMarkup(markup: Cheerio | string, reporter: Reporter): void {
     if (typeof markup === "string") {

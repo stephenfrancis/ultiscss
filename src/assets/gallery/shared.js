@@ -75,7 +75,7 @@ const addStyleToIframes = (style) => {
   var frame = $('iframe');
   var contents = frame.contents();
   // var body = contents.find('body');
-  var styleTag = contents.find('head > style');
+  var styleTag = contents.find('head > style:eq(0)');
   styleTag.empty();
   styleTag.append(style);
 };

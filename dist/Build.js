@@ -310,14 +310,17 @@ function default_1(project, task, aggreg_html_deps) {
                     return [4 /*yield*/, Ultimake.exec("find node_modules/ -name           jquery.min.js -exec cp '{}' " + target_dir + " \\;")];
                 case 3:
                     _a.sent();
-                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name bootstrap.bundle.min.js -exec cp '{}' " + target_dir + " \\;")];
+                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name        bootstrap.min.js -exec cp '{}' " + target_dir + " \\;")];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name       bootstrap.min.css -exec cp '{}' " + target_dir + " \\;")];
+                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name bootstrap.bundle.min.js -exec cp '{}' " + target_dir + " \\;")];
                 case 5:
                     _a.sent();
+                    return [4 /*yield*/, Ultimake.exec("find node_modules/ -name       bootstrap.min.css -exec cp '{}' " + target_dir + " \\;")];
+                case 6:
+                    _a.sent();
                     data = {
-                        gallery_head_include_file: null
+                        gallery_head_include_file: project.getGalleryHeadIncludeFile()
                     };
                     convert = function (ejs_file, html_file) {
                         return new Promise(function (resolve, reject) {
@@ -333,13 +336,13 @@ function default_1(project, task, aggreg_html_deps) {
                         });
                     };
                     return [4 /*yield*/, convert(source_dir + "/iframe.ejs", target_dir + "/iframe.html")];
-                case 6:
-                    _a.sent();
-                    return [4 /*yield*/, convert(source_dir + "/layout.ejs", target_dir + "/layout.html")];
                 case 7:
                     _a.sent();
-                    return [4 /*yield*/, convert(source_dir + "/widget.ejs", target_dir + "/widget.html")];
+                    return [4 /*yield*/, convert(source_dir + "/layout.ejs", target_dir + "/layout.html")];
                 case 8:
+                    _a.sent();
+                    return [4 /*yield*/, convert(source_dir + "/widget.ejs", target_dir + "/widget.html")];
+                case 9:
                     _a.sent();
                     return [2 /*return*/];
             }
