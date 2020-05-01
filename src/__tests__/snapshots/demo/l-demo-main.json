@@ -1,9 +1,7 @@
 {
   "id": "l-demo-main",
   "namespace": "demo",
-  "references": [
-    "l-demo-main"
-  ],
+  "references": [],
   "type": "l",
   "title": "Main Demo Layout",
   "signature": "<div.l-demo-main><div /><div><div /><div /><div.h-open? /></div><div /></div>",

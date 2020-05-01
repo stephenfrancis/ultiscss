@@ -1,9 +1,7 @@
 {
   "id": "w-base-link",
   "namespace": "base",
-  "references": [
-    "w-base-link"
-  ],
+  "references": [],
   "type": "w",
   "title": "Basic Link",
   "signature": "<div.w-base-link />",

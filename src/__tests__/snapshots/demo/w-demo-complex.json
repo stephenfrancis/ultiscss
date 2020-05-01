@@ -1,9 +1,7 @@
 {
   "id": "w-demo-complex",
   "namespace": "demo",
-  "references": [
-    "w-demo-complex"
-  ],
+  "references": [],
   "type": "w",
   "signature": "<div.w-demo-complex><div[2-2]><a[0-*].h-link? /></div></div>",
   "hide_in_gallery": false,
