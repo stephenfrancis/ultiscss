@@ -2,11 +2,13 @@
 <html lang="en">
   <head>
     <title>Layout Component Gallery</title>
-    <link rel="stylesheet" href="./bootstrap.min.css" />
+    <link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./shared.css" />
+    <!--
     <link rel="shortcut icon" href="../images/icon.png" />
-    <script type="text/javascript" src="./jquery.min.js"></script>
-    <script type="text/javascript" src="./bootstrap.min.js"></script>
+    -->
+    <script type="text/javascript" src="../jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./shared.js"></script>
   </head>
   <body>
@@ -33,18 +35,18 @@
     </p>
 
     <h2 id="this_comp"></h2>
-    <div style="display: flex; flex-wrap: wrap;">
+    <div>
       <!-- key screen-width breakpoint 375px + 2px for the iframe border -->
-      <div class="vis_block">
-        <div style="display: flex; flex-flow: row wrap;">
-          <div class="btn-group">
-            <button class="btn btn-secondary" onclick="prevDevice()">Prev</button>
-            <button class="btn btn-secondary" onclick="toggleCycling()" id="cycle_toggler">Cycle</button>
-            <button class="btn btn-secondary" onclick="nextDevice()">Next</button>
-          </div>
-          <div>&nbsp;</div>
-          <h4>No Device</h4>
+      <div class="cycler_control">
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="prevDevice()">Prev</button>
+          <button class="btn btn-secondary" onclick="toggleCycling()" id="cycle_toggler">Cycle</button>
+          <button class="btn btn-secondary" onclick="nextDevice()">Next</button>
         </div>
+        <div>&nbsp;</div>
+        <h4>No Device</h4>
+      </div>
+      <div class="cycler_iframe">
         <iframe src="../gallery/iframe.html" width="200px" height="200px" id="all" title="All">
         </iframe>
       </div>
@@ -58,11 +60,16 @@
       window.onhashchange = (event) => {
         getLayoutCompFromHash(window.location.hash);
       }
-      renderLayoutComponents(".comp_list");
       function reload() {
         getLayoutCompFromHash(window.location.hash);
       }
+      renderLayoutComponents(".comp_list")
+        .then(() => {
+          setTimeout(() => {
+            getLayoutCompFromHash(window.location.hash);
+            startCycling();
+          }, 500); // wait for iframe to sort itself out...
+        });
     </script>
-
   </body>
 </html>

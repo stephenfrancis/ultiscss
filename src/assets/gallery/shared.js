@@ -49,6 +49,7 @@ const getComponent = (comp_id) => {
   // $(".vis_block iframe").attr("src", url);
 
   loadFile(url, (data) => {
+    console.log(`getComponent()/loadFile() got data: ${data.length}`);
     var frame = $('iframe');
     var contents = frame.contents();
     var body = contents.find('body');
@@ -72,6 +73,7 @@ const getLayoutCompFromHash = (hash) => {
 };
 
 const addStyleToIframes = (style) => {
+  console.log(`addStyleToIframes()`);
   var frame = $('iframe');
   var contents = frame.contents();
   // var body = contents.find('body');
@@ -106,7 +108,7 @@ const renderLayoutComponents = (selector) => {
   const getLink = (namespace, component_id, component_title) => {
     return "<li><a href='" + layout_page + "#" + namespace + "/" + component_id + "'>" + (component_title || component_id) + "</a></li>";
   }
-  loadData()
+  return loadData()
     .then((namespaces) => {
       console.log(`renderLayoutComponents() namespaces: ${Object.keys(namespaces)}`);
       Object.keys(namespaces).forEach((namespace) => {
@@ -141,27 +143,42 @@ const renderNamespaces = (selector) => {
 };
 
 const addWidget = (comp_id) => {
-  const url = assets_dir + comp_id + ".html";
-  $("tbody")
-    .append("<tr><td>" + comp_id + "</td><td><div><style /><div /></div></td><td></td></tr>");
+  loadFile(assets_dir + comp_id + ".json", (data) => {
+    $("tbody")
+      .append("<tr><td>" + comp_id + "</td><td><div><style /><div /></div></td><td></td></tr>");
     // <td class='code defn_markup' /><td class='code defn_scss' />
-  var new_row = $("tbody > tr").last();
-  console.log(`added new row: ${new_row.length} ${new_row.html()}`);
+    var new_row = $("tbody > tr").last();
+    console.log(`added new row: ${new_row.length} ${new_row.html()}`);
 
-  loadFile(url, (data) => {
-    console.log(`got data ${new_row.find(":eq(1)").length}`);
-    // new_row.find("td:eq(1)").text(data);
-    new_row.find("td:eq(1) > div > div").html(data);
+    // remove unnecessary data attributes
+    delete data.id;
+    delete data.namespace;
+    delete data.type;
+    delete data.hide_in_gallery;
+    if (data.references && (data.references.length === 0)) {
+      delete data.references;
+    }
+    new_row.find("td:eq(2)").text(JSON.stringify(data, null, 2));
+
+    if (data.hide_in_gallery) {
+      new_row.find("td:eq(1) > div > div").html("HIDDEN due to 'hide_in_gallery' setting in signature");
+      return;
+    }
+
+    loadFile(assets_dir + comp_id + ".html", (data) => {
+      console.log(`got data ${new_row.find(":eq(1)").length}`);
+      // new_row.find("td:eq(1)").text(data);
+      new_row.find("td:eq(1) > div > div").html(data);
+    });
+    // loadFile("../" + comp_id + ".scss", (data) => {
+    //   new_row.find("td:eq(2)").text(data);
+    // });
+    loadFile(assets_dir + comp_id + ".css", (data) => {
+      new_row.find("td:eq(1) > div > style").text(data);
+    });
+
   });
-  // loadFile("../" + comp_id + ".scss", (data) => {
-  //   new_row.find("td:eq(2)").text(data);
-  // });
-  loadFile(assets_dir + comp_id + ".css", (data) => {
-    new_row.find("td:eq(1) > div > style").text(data);
-  });
-  loadFile(assets_dir + comp_id + ".txt", (data) => {
-    new_row.find("td:eq(2)").text(data);
-  });
+
 }
 
 const addWidgets = (namespace) => {
@@ -198,11 +215,11 @@ const devices = [
 
 const setDevice = (index) => {
   const dev = devices[index];
-  $(".vis_block").css("width" , String(dev.w + 2) + "px");
-  $(".vis_block").css("height", String(dev.h + 2) + "px");
-  $(".vis_block h4").text(dev.label);
-  $(".vis_block iframe").css("width" , String(dev.w + 2) + "px");
-  $(".vis_block iframe").css("height", String(dev.h + 2) + "px");
+  $(".cycler_iframe").css("width" , String(dev.w + 2) + "px");
+  $(".cycler_iframe").css("height", String(dev.h + 2) + "px");
+  $(".cycler_control h4").text(`[${dev.w} x ${dev.h}]: ${dev.label}`);
+  $(".cycler_iframe iframe").css("width" , String(dev.w + 2) + "px");
+  $(".cycler_iframe iframe").css("height", String(dev.h + 2) + "px");
 };
 
 let curr_device = 0;
@@ -225,18 +242,22 @@ const prevDevice = () => {
 };
 
 
-let cycling = true;
+let cycling = false;
 let interval = 1000; // ms
-setInterval(() => {
-  if (cycling) {
-    if (curr_device === (devices.length - 1)) {
-      curr_device = 0;
-      setDevice(curr_device);
-    } else {
-      nextDevice();
+
+const startCycling = () => {
+  setInterval(() => {
+    if (cycling) {
+      if (curr_device === (devices.length - 1)) {
+        curr_device = 0;
+        setDevice(curr_device);
+      } else {
+        nextDevice();
+      }
     }
-  }
-}, interval);
+  }, interval);
+  toggleCycling();
+}
 
 const toggleCycling = () => {
   cycling = !cycling;

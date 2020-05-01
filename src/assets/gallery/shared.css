@@ -37,9 +37,10 @@ h2 {
 iframe {
   border: 1px solid #555;
 }
-.vis_block {
-  margin: 0 10px 10px 0;
-  flex: 0 0 auto;
+.cycler_control {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 10px;
 }
 .comp_list {
   display: flex;
