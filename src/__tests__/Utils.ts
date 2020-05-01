@@ -51,6 +51,7 @@ test("process dirs", () => {
     "src/main/Project.ts",
     "src/main/RefObject.ts",
     "src/main/Reporter.ts",
+    "src/main/Server.ts",
     "src/main/Signature.ts",
     "src/main/Types.ts",
     "src/main/Utils.ts",

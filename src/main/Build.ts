@@ -93,10 +93,10 @@ export default function(project, task, aggreg_html_deps): void {
   const objects_file = target_prefix + "/ultiscss/objects.json";
   const summary_file = target_prefix + "/ultiscss/summary.json";
 
-  file_list.gallery_src = Ultimake.glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
+  // file_list.gallery_src = Ultimake.glob((project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery/*");
 
-  file_list.gallery_tgt = file_list.gallery_src
-    .map(path => path.replace(/^.*src\/assets/, target_prefix).replace(/.ejs$/, ".html"));
+  // file_list.gallery_tgt = file_list.gallery_src
+  //   .map(path => path.replace(/^.*src\/assets/, target_prefix).replace(/.ejs$/, ".html"));
 
 
   file_list.all         = file_list.all____json
@@ -254,7 +254,7 @@ export default function(project, task, aggreg_html_deps): void {
     });
   });
 
-
+/*
   task("copy_gallery_files", file_list.gallery_tgt, file_list.gallery_src, async () => {
     const source_dir = (project.isUltiscss() ? "" : "node_modules/ultiscss/") + "src/assets/gallery";
     const target_dir = target_prefix + "/gallery/";
@@ -286,7 +286,7 @@ export default function(project, task, aggreg_html_deps): void {
     await convert(source_dir + "/layout.ejs", target_dir + "/layout.html");
     await convert(source_dir + "/widget.ejs", target_dir + "/widget.html");
   });
-
+*/
 
   // complete build
 

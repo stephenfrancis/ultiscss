@@ -35,6 +35,9 @@ export function getSignature(component_id: string): Signature {
 }
 
 
+export { default as Server } from "./Server";
+
+
 export function showNamespaces(): void {
   project.forEachNamespace((namespace: string) => {
     console.log(namespace);
