@@ -23,7 +23,6 @@ var Project = /** @class */ (function () {
         this.object_cache = {};
         this.sig_map = {};
         this.source_refs_loaded = false;
-        // this.universal_components = null;
         this.readSettings();
         this.scanLibraryDir();
         this.namespaces.sort();
@@ -50,41 +49,6 @@ var Project = /** @class */ (function () {
         var html_file = filename.replace(this.source_dir, this.target_dir).replace(/\.ejs$/, ".html");
         return Utils.convertEJSFile(filename, html_file, this.project_name);
     };
-    /*
-      public deploy(git_branch): number {
-        if (!this.s3_bucket_name || !this.project_name || !git_branch) {
-          throw new Error(`all arguments are required: s3_bucket_name: ${this.s3_bucket_name}, project: ${this.project_name}, git_branch: ${git_branch}`);
-        }
-        let count = 0;
-        const copyToS3 = (from_path: string, to_path?: string) => {
-          let copy_args = "";
-          if (to_path) { // dir copy
-            copy_args = "--recursive --follow-symlinks";
-          } else {
-            to_path = from_path;
-          }
-          const output: Buffer = Cp.execSync(`aws s3 cp ${copy_args} ${from_path} s3://${this.s3_bucket_name}/${this.project_name}/${to_path}`, {
-            encoding: "UTF-8",
-          });
-          String(output).split(/\r/).forEach((line) => {
-            if (line.indexOf("upload:") === 0) {
-              count += 1;
-            }
-          });
-        }
-        copyToS3("node_modules/jquery/dist/jquery.min.js");
-        copyToS3("node_modules/bootstrap/dist/js/bootstrap.bundle.min.js");
-        copyToS3(`${this.target_dir}/fontawesome`, `${git_branch}/fontawesome`);
-        copyToS3(`${this.target_dir}/gallery`    , `${git_branch}/gallery`);
-        copyToS3(`${this.target_dir}/googlefonts`, `${git_branch}/googlefonts`);
-        copyToS3(`${this.target_dir}/summary`    , `${git_branch}/summary`);
-        copyToS3(`${this.target_dir}/webfonts`   , `${git_branch}/webfonts`);
-        this.forEachNamespace((namespace: string) => {
-          copyToS3(`${this.target_dir}/${namespace}`, `${git_branch}/${namespace}`);
-        });
-        return count;
-      }
-    */
     Project.prototype.extractReferences = function (source_file_data) {
         var regex = /\W([lws]\-[a-z]+\-[\-a-z0-9]+)\W/g;
         var out = [];
@@ -94,8 +58,6 @@ var Project = /** @class */ (function () {
             if (out.indexOf(ref_to) === -1) {
                 out.push(ref_to);
             }
-            // console.log(`loadSourceReferences() ${ref_from} -> ${ref_to}`);
-            // this.makeReferences(ref_from, ref_to);
         }
         return out;
     };
@@ -137,36 +99,6 @@ var Project = /** @class */ (function () {
                 .join("\n") + "\n";
         Utils.writeFile(target_file, content);
     };
-    /*
-      private getCollector(): string[] {
-        if (!this.universal_components) {
-          this.universal_components = [];
-          if (this.entry_point_templates) {
-            this.collection[this.entry_point_templates]
-              .forEachReference((comp_id: string) => {
-                if (comp_id.startsWith("l") || comp_id.startsWith("w")) {
-                  this.universal_components.push(comp_id);
-                }
-              });
-          }
-        }
-        // console.log(`Generating SCSS for Template: ${template_id}`);
-        return this.universal_components.slice(); // shallow copy
-      }
-    */
-    /*
-      public getEntryPointTemplates(): string[] {
-        this.loadSourceReferences();
-        const out = [];
-        if (this.entry_point_templates) {
-          this.collection[this.entry_point_templates]
-            .forEachReference((comp_id: string) => {
-              out.push(comp_id);
-            }, "s-");
-        }
-        return out;
-      }
-    */
     Project.prototype.getGalleryHeadIncludeFile = function () {
         return this.gallery_head_include_file;
     };
@@ -187,6 +119,9 @@ var Project = /** @class */ (function () {
             references: this.extractReferences(ejs_data),
             type: parts.type
         };
+        if (out.references.indexOf(object_id) > -1) { // remove self reference
+            out.references.splice(out.references.indexOf(object_id), 1);
+        }
         if ((parts.type === "l") || (parts.type === "w")) {
             var signature = this.getSignature(object_id);
             out.title = signature.getTitle();

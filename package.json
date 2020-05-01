@@ -38,12 +38,13 @@
     "cheerio": "^1.0.0-rc.2",
     "css": "^2.2.4",
     "ejs": "^2.6.1",
+    "express": "^4.17.1",
     "jest": "^24.1.0",
     "jquery": "^3.4.1",
     "node-sass": "^4.13.1",
     "ts-jest": "^24.0.2",
     "typescript": "3.3.3333",
-    "ultimake": "0.3.3"
+    "ultimake": "0.3.4"
   },
   "devDependencies": {
     "nyc": "^15.0.0"

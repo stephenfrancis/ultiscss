@@ -38,6 +38,8 @@ function getSignature(component_id) {
     return project.getSignature(component_id);
 }
 exports.getSignature = getSignature;
+var Server_1 = require("./Server");
+exports.Server = Server_1["default"];
 function showNamespaces() {
     project.forEachNamespace(function (namespace) {
         console.log(namespace);
