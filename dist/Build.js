@@ -79,7 +79,7 @@ function default_1(project, task, aggreg_html_deps) {
                 Ultimake.createDir(json_file);
                 data = project.getObjectData(parts.object_id);
                 fs_1["default"].writeFileSync(json_file, JSON.stringify(data, null, "  "), {
-                    encoding: "UTF-8"
+                    encoding: "utf8"
                 });
                 return [2 /*return*/];
             });
@@ -268,7 +268,7 @@ function default_1(project, task, aggreg_html_deps) {
             Ultimake.createDir(objects_file);
             data = project.getObjects();
             fs_1["default"].writeFileSync(objects_file, JSON.stringify(data, null, "  "), {
-                encoding: "UTF-8"
+                encoding: "utf8"
             });
             return [2 /*return*/];
         });
@@ -279,7 +279,7 @@ function default_1(project, task, aggreg_html_deps) {
             Ultimake.createDir(summary_file);
             data = project.makeSummary();
             fs_1["default"].writeFileSync(summary_file, JSON.stringify(data, null, "  "), {
-                encoding: "UTF-8"
+                encoding: "utf8"
             });
             return [2 /*return*/];
         });

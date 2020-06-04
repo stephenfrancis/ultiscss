@@ -30,7 +30,8 @@ app.get("/gallery/:template.html", (req: Express.Request, res: Express.Response)
 app.use("/gallery",
   Express.static(ultiscss_path + "/src/assets/gallery"));
 
-app.use(Express.static(ultiscss_path + "/node_modules"));
+  app.use(Express.static(cwd           + "/node_modules"));
+  app.use(Express.static(ultiscss_path + "/node_modules"));
 
 app.use(Express.static(cwd + "/build"));
 

@@ -25,7 +25,7 @@ task("clean", null, null, async () => {
 // Make Target Group 2: build
 
 task("build_js", file_list.target_js, file_list.source_ts, async () => {
-	await Ultimake.exec("npx tsc --project src/config/tsconfig.json");
+	await Ultimake.exec("npx tsc --project src/config/tsconfig.json 1>&2"); // force tsc output to stderr
 });
 
 task("build_assets", null, file_list.target_js, async () => {

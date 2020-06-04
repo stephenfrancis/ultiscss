@@ -1,12 +1,12 @@
 /// <reference path = "../../node_modules/ultimake/src/Types.d.ts" />
 
-import Ejs from "ejs";
 import Fs from "fs";
 import * as Ultimake from "ultimake";
+import Project from "./Project";
 import * as Utils from "./Utils";
 
 
-export default function(project, task, aggreg_html_deps): void {
+export default function(project: Project, task: Ultimake.TaskFunction, aggreg_html_deps: string[]): void {
 
   console.log(project.toString());
 
@@ -39,7 +39,7 @@ export default function(project, task, aggreg_html_deps): void {
     Ultimake.createDir(json_file);
     const data = project.getObjectData(parts.object_id);
     Fs.writeFileSync(json_file, JSON.stringify(data, null, "  "), {
-      encoding: "UTF-8",
+      encoding: "utf8",
     });
     // exec(`touch ${this.name}`);
   };
@@ -241,7 +241,7 @@ export default function(project, task, aggreg_html_deps): void {
     Ultimake.createDir(objects_file);
     const data = project.getObjects();
     Fs.writeFileSync(objects_file, JSON.stringify(data, null, "  "), {
-      encoding: "UTF-8",
+      encoding: "utf8",
     });
   });
 
@@ -250,7 +250,7 @@ export default function(project, task, aggreg_html_deps): void {
     Ultimake.createDir(summary_file);
     const data = project.makeSummary();
     Fs.writeFileSync(summary_file, JSON.stringify(data, null, "  "), {
-      encoding: "UTF-8",
+      encoding: "utf8",
     });
   });
 

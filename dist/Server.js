@@ -35,6 +35,7 @@ app.get("/gallery/:template.html", function (req, res) {
     });
 });
 app.use("/gallery", express_1["default"].static(ultiscss_path + "/src/assets/gallery"));
+app.use(express_1["default"].static(cwd + "/node_modules"));
 app.use(express_1["default"].static(ultiscss_path + "/node_modules"));
 app.use(express_1["default"].static(cwd + "/build"));
 exports["default"] = app;

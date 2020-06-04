@@ -40,11 +40,11 @@
     "ejs": "^2.6.1",
     "express": "^4.17.1",
     "jest": "^24.1.0",
-    "jquery": "^3.4.1",
-    "node-sass": "^4.13.1",
-    "ts-jest": "^24.0.2",
+    "jquery": "^3.5.1",
+    "node-sass": "^4.14.1",
+    "ts-jest": "^26.0.0",
     "typescript": "3.3.3333",
-    "ultimake": "0.3.4"
+    "ultimake": "0.4.1"
   },
   "devDependencies": {
     "nyc": "^15.0.0"
