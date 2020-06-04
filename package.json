@@ -4,7 +4,7 @@
   },
   "main": "./dist/EntryPoint.js",
   "name": "ultiscss",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "SCSS Component Builder and Validator",
   "engines": {
     "node": "^10.17"
