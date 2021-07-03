@@ -7,12 +7,12 @@
   "version": "1.2.1",
   "description": "SCSS Component Builder and Validator",
   "engines": {
-    "node": "^10.17"
+    "node": ">=10"
   },
   "scripts": {
     "build": "src/config/make.js build",
     "clean": "src/config/make.js clean",
-    "coverage": "nyc npm run test",
+    "coverage": "nyc yarn test",
     "test": "src/config/make.js test",
     "version_click": "node src/config/make.js version_click"
   },
@@ -32,19 +32,19 @@
   },
   "dependencies": {
     "@types/cheerio": "^0.22.13",
-    "@types/ejs": "^2.6.3",
-    "@types/jest": "^24.0.16",
-    "bootstrap": "^4.3.1",
+    "@types/ejs": "^3.0.6",
+    "@types/jest": "^26.0.23",
+    "bootstrap": "^5.0.2",
     "cheerio": "^1.0.0-rc.2",
-    "css": "^2.2.4",
-    "ejs": "^2.6.1",
+    "css": "^3.0.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "jest": "^24.1.0",
+    "jest": "^27.0.6",
     "jquery": "^3.5.1",
-    "node-sass": "^4.14.1",
-    "ts-jest": "^26.0.0",
-    "typescript": "3.3.3333",
-    "ultimake": "0.4.1"
+    "node-sass": "^6.0.1",
+    "ts-jest": "^27.0.3",
+    "typescript": "4.3.5",
+    "ultimake": "0.7.1"
   },
   "devDependencies": {
     "nyc": "^15.0.0"

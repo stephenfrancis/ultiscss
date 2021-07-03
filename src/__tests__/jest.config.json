@@ -1,14 +1,13 @@
 {
   "globals": {
     "ts-jest": {
-      "tsConfig": "src/config/tsconfig.json"
+      "tsConfig": "src/config/tsconfig.json",
+      "diagnostics": {
+        "ignoreCodes": [151001]
+      }
     }
   },
-  "moduleFileExtensions": [
-    "ts",
-    "tsx",
-    "js"
-  ],
+  "moduleFileExtensions": ["ts", "tsx", "js"],
   "transform": {
     "\\.(ts|tsx)$": "ts-jest"
   },

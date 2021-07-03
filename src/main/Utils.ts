@@ -1,10 +1,12 @@
-
 import Cheerio from "cheerio";
 import * as Ejs from "ejs";
 import * as Fs from "fs";
 
-
-export function convertEJSFile(ejs_file: string, html_file: string, project_name?: string): Promise<string> {
+export function convertEJSFile(
+  ejs_file: string,
+  html_file: string,
+  project_name?: string
+): Promise<string> {
   let data = {};
   const options = {};
   const js_file = ejs_file.replace(/\.ejs$/, ".js");
@@ -17,7 +19,7 @@ export function convertEJSFile(ejs_file: string, html_file: string, project_name
       require_path = "../../../" + js_file; // coming from "/node_modules/ultiscss/dist"
       if (__dirname.indexOf("/node_modules/ultiscss/dist") === -1) {
         if (__dirname.indexOf("/dist") > -1) {
-          require_path = "../../"    + project_name + "/" + js_file; // coming from "<elsewhere>/ultiscss/dist"
+          require_path = "../../" + project_name + "/" + js_file; // coming from "<elsewhere>/ultiscss/dist"
         } else {
           require_path = "../../../" + project_name + "/" + js_file; // coming from "<elsewhere>/ultiscss/src/main" or "<elsewhere>/ultiscss/build/main"
         }
@@ -25,7 +27,9 @@ export function convertEJSFile(ejs_file: string, html_file: string, project_name
       try {
         data = require(require_path);
       } catch (e) {
-        reject(`error ${e} loading ${require_path} from ${__dirname}; skipping conversion of ${ejs_file}`);
+        reject(
+          `error ${e} loading ${require_path} from ${__dirname}; skipping conversion of ${ejs_file}`
+        );
         return;
       }
     }
@@ -40,14 +44,17 @@ export function convertEJSFile(ejs_file: string, html_file: string, project_name
   });
 }
 
-
-export function drillDownMarkup(node: Cheerio, selector: string,
-    callback: (node: Cheerio, parent_data: any) => boolean | void, parent_data?: any) {
+export function drillDownMarkup(
+  node: cheerio.Cheerio,
+  selector: string,
+  callback: (node: cheerio.Cheerio, parent_data: any) => boolean | void,
+  parent_data?: any
+) {
   if (!parent_data) {
     parent_data = {};
   }
   parent_data.position = parent_data.position || "-";
-  parent_data.level    = parent_data.level    || 0;
+  parent_data.level = parent_data.level || 0;
   parent_data.sibling_nbr = parent_data.sibling_nbr || 0;
   if (callback(node, parent_data) === false) {
     return;
@@ -55,14 +62,16 @@ export function drillDownMarkup(node: Cheerio, selector: string,
   node.children(selector).each((index, child) => {
     let this_data = Object.assign({}, parent_data);
     this_data.sibling_nbr = index;
-    this_data.position    = parent_data.position + index + "-";
-    this_data.level       = parent_data.level + 1;
+    this_data.position = parent_data.position + index + "-";
+    this_data.level = parent_data.level + 1;
     drillDownMarkup(Cheerio(child), selector, callback, this_data);
   });
 }
 
-
-export function forEachClassInCSS(css_ast: any, callback: (selector: string) => void) {
+export function forEachClassInCSS(
+  css_ast: any,
+  callback: (selector: string) => void
+) {
   if (!css_ast || !css_ast.stylesheet || !css_ast.stylesheet.rules) {
     return;
   }
@@ -77,9 +86,8 @@ export function forEachClassInCSS(css_ast: any, callback: (selector: string) => 
         callback(matches[1]);
       }
     });
-  })
+  });
 }
-
 
 export function forEachPropertyInCSS(css_ast, callback): void {
   if (!css_ast || !css_ast.stylesheet || !css_ast.stylesheet.rules) {
@@ -92,25 +100,23 @@ export function forEachPropertyInCSS(css_ast, callback): void {
     rule.declarations.forEach((declaration) => {
       callback(declaration.property);
     });
-  })
+  });
 }
 
-
-export function getCheerio(data: string): CheerioStatic {
+export function getCheerio(data: string): cheerio.Root {
   if (!data) {
     throw new Error("getCheerio(): no data");
   }
   return Cheerio.load(data);
 }
 
-
-export function getHTMLNode(data: string): Cheerio {
+export function getHTMLNode(data: string): cheerio.Cheerio {
   return getRoot(getCheerio(data)).children("html");
 }
 
-
 // to act on a file path: 1 = namespace, 2 = filename, 3 = ref, 4 = type, 5 = file suffix
-const obj_regex_in_path = /\/([a-z]+)\/((([alsw])\-[a-z]+\-[a-z0-9\-]+)\.([a-z]+))$/;
+const obj_regex_in_path =
+  /\/([a-z]+)\/((([alsw])\-[a-z]+\-[a-z0-9\-]+)\.([a-z]+))$/;
 
 interface FilepathParts {
   namespace: string;
@@ -127,16 +133,15 @@ export function getPartsFromFilepath(filepath: string): FilepathParts {
   }
   return {
     namespace: parts[1],
-    filename : parts[2],
+    filename: parts[2],
     object_id: parts[3],
-    type     : parts[4],
-    suffix   : parts[5],
+    type: parts[4],
+    suffix: parts[5],
   } as FilepathParts;
 }
 
-
 // to act on a reference: 1 = type, 2 = namespace, 3 = rest
-const obj_regex_in_ref  = /^([alsw])\-([a-z]+)\-([a-z0-9\-]+)$/;
+const obj_regex_in_ref = /^([alsw])\-([a-z]+)\-([a-z0-9\-]+)$/;
 
 interface ObjectIdParts {
   namespace: string;
@@ -150,26 +155,25 @@ export function getPartsFromObjectId(object_id: string): ObjectIdParts {
     throw new Error(`invalid object id: ${object_id}`);
   }
   return {
-    type     : parts[1],
+    type: parts[1],
     namespace: parts[2],
-    rest     : parts[3],
+    rest: parts[3],
   } as ObjectIdParts;
 }
 
-
 export function getPackage(path: string): any {
-  return JSON.parse(Fs.readFileSync(path + "/package.json", {
-    encoding: "UTF-8",
-  }));
+  return JSON.parse(
+    Fs.readFileSync(path + "/package.json", {
+      encoding: "utf8",
+    })
+  );
 }
 
-
-export function getRoot(cheerio: CheerioStatic): Cheerio {
+export function getRoot(cheerio: cheerio.Root): cheerio.Cheerio {
   return cheerio.root();
 }
 
-
-export function getRootElement(cheerio: CheerioStatic): Cheerio {
+export function getRootElement(cheerio: cheerio.Root): cheerio.Cheerio {
   let div = getRoot(cheerio).children("html").children("body").children("*");
   if (div.length > 1) {
     div = div.parent();
@@ -179,39 +183,40 @@ export function getRootElement(cheerio: CheerioStatic): Cheerio {
   return div;
 }
 
-
-export function getRootElementFromData(data: string): Cheerio {
+export function getRootElementFromData(data: string): cheerio.Cheerio {
   return getRootElement(getCheerio(data));
 }
-
 
 export function isClassComponentPattern(class_name: string): boolean {
   return !!class_name.match(/^[lw]\-[\w\d]+\-[\w\d]+/);
 }
 
-
 export function isPatternClass(class_name: string): boolean {
-  return (class_name.indexOf("*") === (class_name.length - 1));
+  return class_name.indexOf("*") === class_name.length - 1;
 }
 
-
-export function isSignatureClassMatch(sig_class: string, test_class: string): boolean {
-  return (sig_class === test_class) || (isPatternClass(sig_class)
-    && (test_class.indexOf(sig_class.substr(0, sig_class.length - 1)) === 0));
-}
-
-
-export function loadFile(filename: string): string {
-  return Fs.readFileSync(filename,
-    {
-      encoding: "UTF-8",
-    }
+export function isSignatureClassMatch(
+  sig_class: string,
+  test_class: string
+): boolean {
+  return (
+    sig_class === test_class ||
+    (isPatternClass(sig_class) &&
+      test_class.indexOf(sig_class.substr(0, sig_class.length - 1)) === 0)
   );
 }
 
+export function loadFile(filename: string): string {
+  return Fs.readFileSync(filename, {
+    encoding: "utf8",
+  });
+}
 
-export function parseClasses(class_list: string[],
-    cb_req: (class_name: string) => void, cb_opt: (class_name: string) => void): void {
+export function parseClasses(
+  class_list: string[],
+  cb_req: (class_name: string) => void,
+  cb_opt: (class_name: string) => void
+): void {
   if (!class_list) {
     return;
   }
@@ -224,10 +229,14 @@ export function parseClasses(class_list: string[],
   });
 }
 
-
-export function processDir(dirname: string, pattern: RegExp, recurse: boolean, callback: (path: string) => void): void {
+export function processDir(
+  dirname: string,
+  pattern: RegExp,
+  recurse: boolean,
+  callback: (path: string) => void
+): void {
   Fs.readdirSync(dirname, {
-    encoding: "UTF-8",
+    encoding: "utf8",
   }).forEach((name) => {
     const path = dirname + "/" + name;
     const stats = Fs.lstatSync(path);
@@ -240,13 +249,14 @@ export function processDir(dirname: string, pattern: RegExp, recurse: boolean, c
   });
 }
 
-
-export function splitClasses(class_list: string): string[]  {
+export function splitClasses(class_list: string): string[] {
   return class_list ? class_list.trim().split(/\s+/) : [];
 }
 
-
-export function testClassMatches(sig_class_array: string[], test_class: string): string {
+export function testClassMatches(
+  sig_class_array: string[],
+  test_class: string
+): string {
   let match_class = null;
   sig_class_array.forEach((sig_class) => {
     if (!match_class && isSignatureClassMatch(sig_class, test_class)) {
@@ -256,11 +266,10 @@ export function testClassMatches(sig_class_array: string[], test_class: string):
   return match_class;
 }
 
-
 // testedComponent() -> Reporter.instancesFound()
 
 export function writeFile(filename: string, data: string): void {
   Fs.writeFileSync(filename, data, {
-    encoding: "UTF-8",
+    encoding: "utf8",
   });
 }
